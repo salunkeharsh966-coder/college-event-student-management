@@ -1,3 +1,4 @@
+
 package com.college.eventmanagement.config;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -16,6 +17,7 @@ public class CorsConfig {
 
     @Bean
     public WebMvcConfigurer corsConfigurer() {
+
         String[] origins = Arrays.stream(allowedOrigins.split(","))
                 .map(String::trim)
                 .filter(origin -> !origin.isEmpty())
@@ -24,9 +26,12 @@ public class CorsConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/api/**")
+                registry.addMapping("/**")
                         .allowedOrigins(origins)
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                        .allowedMethods(
+                                "GET", "POST", "PUT",
+                                "PATCH", "DELETE", "OPTIONS"
+                        )
                         .allowedHeaders("*");
             }
         };
